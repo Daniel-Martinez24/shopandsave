@@ -15,7 +15,6 @@
     "generate": "nuxt generate",
     "test": "jest",
     "heroku-postbuild": "npm run build"
-  }
   },
   "dependencies": {
     "nuxt": "^2.0.0",
