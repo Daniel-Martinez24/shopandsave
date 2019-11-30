@@ -4,6 +4,10 @@
   "description": "Proyecto para finanzas personales",
   "author": "Daniel_Martinez24",
   "private": true,
+  "engines": {
+    "node": "12.13.0",
+    "npm": "6.x"
+  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
