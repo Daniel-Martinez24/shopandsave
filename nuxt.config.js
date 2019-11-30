@@ -46,6 +46,14 @@ export default {
   modules: [
     '@nuxtjs/pwa',
   ],
+
+
+  manifest: {
+    name: 'Shop And Save',
+    short_name: 'Shop And Save',
+    lang: 'en',
+    display: 'standalone',
+  },
   /*
   ** Build configuration
   */
