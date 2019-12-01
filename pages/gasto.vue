@@ -1,6 +1,45 @@
 <template>
-    <h1>Añadir gastos</h1>
+    <div class="container" :style="regillas">
+        <h1 class="title">{{tipo}}</h1>
+        <el-button id="comida" type="primary" @click="tipo = 'Comida'" plain>Comida</el-button>
+        <el-button id="transporte" type="primary" @click="tipo = 'Transporte'" plain>Transporte</el-button>
+        <el-button id="especial" type="primary" @click="tipo = 'Especial'" plain>Especial</el-button>
+        <el-button id="diario" type="primary" @click="tipo = 'Diario'" plain>Diario</el-button>
+        <el-input class="input" placeholder="Ingresa la cantidad" v-model="gasto"></el-input>
+        <el-button type="success" @click="ir('panel')" class="continuar" :style="continuarStyle" icon="el-icon-check" circle></el-button>
+    </div> 
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            tipo:'Añadir gastos',
+            gasto: '',
+            continuarStyle: 'display:none;',
+            regillas: ''
+        }
+    },
+    methods: {
+        ir(ruta) {
+        console.log(ruta);
+        this.$router.push({ path: '/' + ruta });
+        }
+    },
+    watch: {
+      gasto: function () {
+          if (this.tipo != 'añade gasto' && this.gasto != '') {
+              this.continuarStyle ='display:block;';
+              this.regillas='grid-template-rows: 30% 20% 10% 10% 10% 20%;';
+          }
+          else {
+              this.continuarStyle ='display:none;'
+              this.regillas='';
+          }
+      }  
+    },
+}
+</script>
 
 <style>
 .container {
@@ -8,12 +47,13 @@
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: 10% 80% 10%;
-  grid-template-rows: 23% 50% 10% 0% 10% 7%;
+  grid-template-columns: 10% 40% 40% 10%;
+  grid-template-rows: 30% 30% 10% 10% 10% 10%;
   justify-content: center;
   align-items: center;
   text-align: center;
 }
+
 
 .container img {
   grid-column-start: 2;
@@ -23,7 +63,15 @@
   margin:auto;
 }
 
-#login {
+.continuar {
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 6;
+  display:block;
+  margin:auto;
+}
+
+#comida {
   grid-column-start: 2;
   grid-row-start: 3;
   
@@ -31,15 +79,39 @@
   display:block;
   margin:auto;
 }
-#singin {
+#transporte {
+  grid-column-start: 3;
+  grid-row-start: 3;
+  
+  width: 80%;
+  display:block;
+  margin:auto;
+}
+#especial {
   grid-column-start: 2;
-  grid-row-start: 5;
+  grid-row-start: 4;
+  
+  width: 80%;
+  display:block;
+  margin:auto;
+}
+#diario {
+  grid-column-start: 3;
+  grid-row-start: 4;
   
   width: 80%;
   display:block;
   margin:auto;
 }
 
+.input {
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 5;
+  width: 80%;
+  display:block;
+  margin:auto;
+}
 .title {
   font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -48,6 +120,7 @@
   color: #35495e;
   letter-spacing: 1px;
   grid-column-start: 2;
-  grid-row-start: 0;
+  grid-column-end: 4;
+  grid-row-start: 0;;
 }
 </style>
