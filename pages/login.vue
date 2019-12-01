@@ -103,7 +103,6 @@ export default {
 #txtEmail {
   grid-column-start: 2;
   grid-row-start: 3;
-  
   width: 100%;
   display:block;
   margin:auto;
