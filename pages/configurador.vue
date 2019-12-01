@@ -37,9 +37,6 @@ export default {
       
     const ingreso = parseFloat(this.ingresos);
     const deseo = parseFloat(this.deseo);
-    alert(deseo);
-    alert(ingreso);
-
       if (ingreso > 0 && deseo > 0) {
         this.$message({
           message: 'Los datos se guardaron exitosamente',

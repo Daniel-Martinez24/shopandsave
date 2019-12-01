@@ -28,7 +28,10 @@ export default {
                 console.log(ruta);
                 this.$router.push({ path: '/' + ruta });
             } else {
-                alert('debe ser un numero mayor a 0');
+                this.$message({
+                  message: 'Ingresa datos correctos',
+                  type: 'error'
+                })
             }
         },
         verificar() {
