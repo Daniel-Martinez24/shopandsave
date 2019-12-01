@@ -53,19 +53,6 @@ export default {
           alert('no');
         }
     });
-
-    // espera un argumento
-    //console.log(auth.onAuthStateChanged);
-    // this.confirmar();
-    /*
-    const confirmado = await this.confirmar();
-    if (confirmado==='logeado') {
-      // this.logeado = true;
-      alert('Logeado true');
-    }
-    else {
-      alert(confirmado);
-    }*/
   },
   methods: {
     async confirmar () {

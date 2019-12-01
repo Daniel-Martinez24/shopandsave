@@ -1,30 +1,14 @@
 <template>
   <div class="container">
-    <div>
-      <logo />
       <h1 class="title">
-        shopandsave
+        shop & save
       </h1>
-      <h2 class="subtitle">
-        Proyecto para finanzas personales
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
+      <img src="https://firebasestorage.googleapis.com/v0/b/shop-and-save.appspot.com/o/chancho.png?alt=media&token=d278b08c-575c-4993-af94-9dcf928fb349"></img>
+    
+     <el-button type="primary" @click="ir('login')" id="login">inicia sesión</el-button>
+     <el-button id="singin" @click="ir('singin')" >Registrate</el-button>
+     
+    
   </div>
 </template>
 
@@ -32,41 +16,61 @@
 import Logo from '~/components/Logo.vue'
 
 export default {
-  components: {
-    Logo
+  methods: {
+    ir(ruta) {
+      console.log(ruta);
+      this.$router.push({ path: '/' + ruta });
+    }
   }
 }
 </script>
 
 <style>
 .container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 10% 80% 10%;
+  grid-template-rows: 23% 50% 10% 0% 10% 7%;
   justify-content: center;
   align-items: center;
   text-align: center;
 }
 
+.container img {
+  grid-column-start: 2;
+  grid-row-start: 2;
+  width: 80%;
+  display:block;
+  margin:auto;
+}
+
+#login {
+  grid-column-start: 2;
+  grid-row-start: 3;
+  
+  width: 80%;
+  display:block;
+  margin:auto;
+}
+#singin {
+  grid-column-start: 2;
+  grid-row-start: 5;
+  
+  width: 80%;
+  display:block;
+  margin:auto;
+}
+
 .title {
   font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
   font-weight: 300;
-  font-size: 100px;
+  font-size: 200%;
   color: #35495e;
   letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+  grid-column-start: 2;
+  grid-row-start: 0;
 }
 </style>
