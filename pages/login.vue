@@ -1,7 +1,7 @@
 <template>
   <div class="container">
       <p>Entre mas ahorres, mas puntos juntas para comprarle diferentes estilos a tu cerdito.</p>
-      <img src="https://firebasestorage.googleapis.com/v0/b/shop-and-save.appspot.com/o/chanchos%2FChanchos-asombrado.png?alt=media&token=bc3988c6-b299-4087-af1a-dca267aadc0d"></img>
+      <img src="https://firebasestorage.googleapis.com/v0/b/shop-and-save.appspot.com/o/chanchos%2FChanchos-asombrado.png?alt=media&token=a449ca67-96dc-438c-adfd-37610effe402"></img>
     <div id="txtEmail">
       <el-input
         id="txtEmail"

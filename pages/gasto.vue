@@ -1,12 +1,13 @@
 <template>
     <div class="container" :style="regillas">
         <h1 class="title">{{tipo}}</h1>
+        <img src="https://firebasestorage.googleapis.com/v0/b/shop-and-save.appspot.com/o/chanchos%2FChanchos-alegre.png?alt=media&token=c815c0f6-872c-4019-8022-1d09e7bf3cd4" alt="">
         <el-button id="comida" type="primary" @click="tipo = 'Comida'" plain>Comida</el-button>
         <el-button id="transporte" type="primary" @click="tipo = 'Transporte'" plain>Transporte</el-button>
         <el-button id="especial" type="primary" @click="tipo = 'Especial'" plain>Especial</el-button>
         <el-button id="diario" type="primary" @click="tipo = 'Diario'" plain>Diario</el-button>
         <el-input class="input" placeholder="Ingresa la cantidad" v-model="gasto"></el-input>
-        <el-button type="success" @click="ir('panel')" class="continuar" :style="continuarStyle" icon="el-icon-check" circle></el-button>
+        <el-button type="success" @click="guardar('panel')" class="continuar" :style="continuarStyle" icon="el-icon-check" circle></el-button>
     </div> 
 </template>
 
@@ -21,23 +22,37 @@ export default {
         }
     },
     methods: {
-        ir(ruta) {
-        console.log(ruta);
-        this.$router.push({ path: '/' + ruta });
+        guardar(ruta) {
+            const numero = parseFloat(this.gasto);
+            if (numero > 0) {
+                console.log(ruta);
+                this.$router.push({ path: '/' + ruta });
+            } else {
+                alert('debe ser un numero mayor a 0');
+            }
+        },
+        verificar() {
+            if (this.tipo != 'Añadir gastos' && this.gasto != '') {
+                this.continuarStyle ='display:block;';
+                this.regillas='grid-template-columns: 10% 40% 40% 10%; grid-template-rows: 30% 20% 10% 10% 10% 20%;';
+            }
+            else {
+                this.continuarStyle ='display:none;'
+                this.regillas='grid-template-columns: 10% 40% 40% 10%; grid-template-rows: 30% 30% 10% 10% 10% 10%;';
+            }
         }
     },
     watch: {
       gasto: function () {
-          if (this.tipo != 'añade gasto' && this.gasto != '') {
-              this.continuarStyle ='display:block;';
-              this.regillas='grid-template-rows: 30% 20% 10% 10% 10% 20%;';
-          }
-          else {
-              this.continuarStyle ='display:none;'
-              this.regillas='';
-          }
-      }  
+          this.verificar();
+      },
+      tipo: function () {
+          this.verificar();
+      }
     },
+    mounted(){ 
+        this.regillas='grid-template-columns: 10% 40% 40% 10%; grid-template-rows: 30% 30% 10% 10% 10% 10%;';
+    }
 }
 </script>
 
@@ -57,8 +72,9 @@ export default {
 
 .container img {
   grid-column-start: 2;
+  grid-column-end: 4;
   grid-row-start: 2;
-  width: 80%;
+  width: 40%;
   display:block;
   margin:auto;
 }
