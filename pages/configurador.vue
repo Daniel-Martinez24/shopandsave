@@ -1,25 +1,22 @@
 <template>
   <div class="container">
-      <p>Con <strong>shop & save</strong> puedes llevar un control sobre tus finanzas personales</p>
-      <img src="https://firebasestorage.googleapis.com/v0/b/shop-and-save.appspot.com/o/chanchos%2FChanchos-asombrado.png?alt=media&token=a449ca67-96dc-438c-adfd-37610effe402"></img>
+      <p><strong>Ahorre dinero</strong> administrado sus gastos semanales</p>
+      <img src="https://firebasestorage.googleapis.com/v0/b/shop-and-save.appspot.com/o/chanchos%2FChanchos-alegre.png?alt=media&token=c815c0f6-872c-4019-8022-1d09e7bf3cd4"></img>
     <div id="txtEmail">
       <el-input
         id="txtEmail"
-        v-model="correo"
-        placeholder="Ingresa tu correo"
-        type="email"
-        name="txtEmail"
+        v-model="ingresos"
+        placeholder="Ingresa tus ingresos semanales"
       ></el-input>
     </div>
     <br />
     <div id="txtPassword">
       <el-input
-        v-model="contrasenia"
-        placeholder="Ingresa tu contraseña"
-        show-password
+        v-model="deseo"
+        placeholder="la cantidad que seas ahorrar"
       ></el-input>
     </div>
-     <el-button type="primary" @click="siguiente()" id="singin">Siguiente</el-button>
+     <el-button type="primary" @click="siguiente()" id="singin">Continuar !</el-button>
      
     
   </div>
@@ -31,33 +28,23 @@ import { auth } from '@/plugins/firebase';
 export default {
   data() {
     return {
-      correo: '',
-      contrasenia: ''
+      ingresos: '',
+      deseo: ''
     }
   },
   methods: {
     siguiente(){
       
-      // cambiar esto, a tener aprovación de firebase
-      if (this.contrasenia != '' && this.correo !="") {
-        auth.createUserWithEmailAndPassword(this.correo, this.contrasenia)
-        .then(
-          this.$message({
-          message: 'La cuante fue creada exitosamente.',
+    const ingreso = parseFloat(this.ingresos);
+    const deseo = parseFloat(this.deseo);
+    alert(deseo);
+    alert(ingreso);
+
+      if (ingreso > 0 && deseo > 0) {
+        this.$message({
+          message: 'Los datos se guardaron exitosamente',
         })
-        )
-        .then(
-          this.$router.push({ path: '/configurador' })
-        )
-        .catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          this.$message({
-          message: 'error.' + errorCode + ' ' + errorMessage,
-          type: 'error'
-        });
-        });
+        this.$router.push({ path: '/panel' })
       }
       else {
        this.$message({
