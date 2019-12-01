@@ -50,14 +50,16 @@ export default {
         auth.signOut().then(function() {
             console.log('bye');
         }).catch(function(error) {
-        alert(error)
+            alert(error)
         })
+        this.$router.push({ path: '/' });
+
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 .container {
   position: fixed;
   width: 100%;
