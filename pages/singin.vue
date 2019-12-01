@@ -1,5 +1,7 @@
 <template>
   <div id="main">
+    
+    <p>Con <strong>shop & save</strong> puedes llevar un control sobre tus finanzas personales</p>
     <img
       id="imgRedonda"
       src="https://firebasestorage.googleapis.com/v0/b/deshifrut-30515.appspot.com/o/image004.png?alt=media&token=0071b3f4-0f5a-4a71-ad63-2563c435fab5"

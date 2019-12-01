@@ -1,13 +1,7 @@
 <template>
-  <div id="main">
-    {{ logeado }}
-    <img
-      id="imgRedonda"
-      src="https://firebasestorage.googleapis.com/v0/b/deshifrut-30515.appspot.com/o/image004.png?alt=media&token=0071b3f4-0f5a-4a71-ad63-2563c435fab5"
-    />
-    <h1 id="title">Login</h1>
-    <br />
-    <br />
+  <div class="container">
+      <p>Entre mas ahorres, mas puntos juntas para comprarle diferentes estilos a tu cerdito.</p>
+      <img src="https://firebasestorage.googleapis.com/v0/b/shop-and-save.appspot.com/o/chanchos%2FChanchos-asombrado.png?alt=media&token=bc3988c6-b299-4087-af1a-dca267aadc0d"></img>
     <div id="txtEmail">
       <el-input
         id="txtEmail"
@@ -25,8 +19,9 @@
         show-password
       ></el-input>
     </div>
-
-    <el-button id="btnLogin" type="primary" @click="login()">Entrar</el-button>
+     <el-button type="primary" @click="login()" id="singin">inicia sesión</el-button>
+     
+    
   </div>
 </template>
 
@@ -38,7 +33,6 @@ export default {
     return {
       correo: 'correo@yopmail.com',
       contrasenia: 'contraseña',
-      logeado: false
     };
   },
   mounted() {
@@ -46,11 +40,11 @@ export default {
     // const user =  ;
     const promise = fetch(auth.currentUser);
     promise.then(result => {
-      alert('el user es: '+result);
+      console.log('el user es: '+result);
        if (result) {
-          alert('yes, i am');
+          console.log('yes, i am');
         } else {
-          alert('no');
+          console.log('no');
         }
     });
   },
@@ -59,7 +53,7 @@ export default {
       console.log('fun confirmar');
       await auth.onAuthStateChanged(function(user) {
         if (user) {
-          alert('confirmado');
+          console.log('confirmado');
           return 'logeado';
         } else {
           return 'logeadon´t';
@@ -72,8 +66,7 @@ export default {
         .signInWithEmailAndPassword(this.correo, this.contrasenia)
         .then(res => {
           // Antetificar
-          this.logeado = true;
-          // this.$router.push({ path: '/admin' });
+          this.$router.push({ path: '/panel' });
         })
         .catch(err => {
           console.log('error');
@@ -87,41 +80,59 @@ export default {
 </script>
 
 <style scoped>
-#main {
+.container {
   position: fixed;
   width: 100%;
   height: 100%;
-  /*https://encycolorpedia.es/a749bf*/
-  background-color: #b397ba;
-  grid-template-columns: 10% 80% 10%;
-  grid-template-rows: 10% 30% 10% 3% 7% 7% 7% 26%;
   display: grid;
+  grid-template-columns: 10% 80% 10%;
+  grid-template-rows: 33% 30% 10% 10% 10% 7%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
+
+.container img {
+  grid-column-start: 2;
+  grid-row-start: 2;
+  width: 60%;
+  display:block;
+  margin:auto;
+}
+
 #txtEmail {
   grid-column-start: 2;
-  grid-row-start: 5;
+  grid-row-start: 3;
+  
+  width: 100%;
+  display:block;
+  margin:auto;
 }
 #txtPassword {
   grid-column-start: 2;
-  grid-row-start: 6;
+  grid-row-start: 4;
+  
+  width: 100%;
+  display:block;
+  margin:auto;
 }
-#btnLogin {
+#singin {
   grid-column-start: 2;
-  grid-row-start: 7;
+  grid-row-start: 5;
+  
+  width: 80%;
+  display:block;
+  margin:auto;
 }
-#title {
-  text-align: center;
+
+.container p {
+  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 300;
+  font-size: 100%;
+  color: #35495e;
+  letter-spacing: 1px;
   grid-column-start: 2;
-  grid-row-start: 3;
-  color: #ffffff;
-}
-#imgRedonda {
-  display: block;
-  margin: auto;
-  grid-column-start: 2;
-  grid-row-start: 2;
-  width: 200px;
-  height: 200px;
-  border-radius: 150px;
+  grid-row-start: 0;
 }
 </style>
