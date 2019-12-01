@@ -48,11 +48,17 @@ export default {
     },
     salir (){
         auth.signOut().then(function() {
-            console.log('bye');
+            
         }).catch(function(error) {
-            alert(error)
+            this.$message({
+              message: 'error. ' + error,
+              type: 'error'
+            });
         })
         this.$router.push({ path: '/' });
+        this.$message({
+              message: 'Se cerro la sesión con exito.'
+            });
 
     }
   }
