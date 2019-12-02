@@ -6,7 +6,7 @@
       <h2>$ {{cuentas.ahorroDeseado - gastosAnt.comida - gastosAnt.transporte - gastosAnt.especiales - gastosAnt.diario}}</h2>
 
       <h1 class="title">
-        14 de enero 2019
+        {{fecha}}
       </h1>
       <img src="https://firebasestorage.googleapis.com/v0/b/shop-and-save.appspot.com/o/chanchos%2FChanchos-felicidades.png?alt=media&token=aa1626cc-c571-4086-ba79-f1f02108df48"></img>
         
@@ -41,6 +41,13 @@ export default {
     auth.onAuthStateChanged(user => (this.correo = user.email))
   },
   watch: {
+    hora: function () {
+      let date = new Date(this.hora * 1000);
+      const mouth = date.getMonth() + 1;
+      date = date.getDate() + '/' + mouth + '/' + date.getFullYear();
+      this.fecha = date;
+      
+    },
     authenticatedUser: function () {
       console.log('this.authenticatedUser')
       console.log(this.authenticatedUser)
@@ -97,6 +104,7 @@ export default {
   },
     data(){
         return {
+            fecha:'',
             gastosAnt: [],
             hora: 0,
             cuentas: [],
