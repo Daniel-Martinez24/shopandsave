@@ -6,7 +6,7 @@
       <h2>$ {{cuentas.ahorroDeseado - gastosAnt.comida - gastosAnt.transporte - gastosAnt.especiales - gastosAnt.diario}}</h2>
 
       <h1 class="title">
-        14 de enero 2019 {{cuentas.ahorroDeseado}}
+        14 de enero 2019
       </h1>
       <img src="https://firebasestorage.googleapis.com/v0/b/shop-and-save.appspot.com/o/chanchos%2FChanchos-felicidades.png?alt=media&token=aa1626cc-c571-4086-ba79-f1f02108df48"></img>
         
@@ -15,10 +15,10 @@
         <p id="gastoEspeciales">$ {{gastosAnt.especiales}} especiales</p>
         <p id="gastoDiario">$ {{gastosAnt.diario}} diario</p>
 
-        <el-progress id="progresoComida" :percentage="50"></el-progress>
-        <el-progress id="progresoTransporte" :percentage="50"></el-progress>
-        <el-progress id="progresoEspeciales" :percentage="50"></el-progress>
-        <el-progress id="progresoDiario" :percentage="50"></el-progress>
+        <el-progress id="progresoComida" :percentage="100 / cuentas.ahorroDeseado * gastosAnt.comida"></el-progress>
+        <el-progress id="progresoTransporte" :percentage="100 / cuentas.ahorroDeseado * gastosAnt.transporte"></el-progress>
+        <el-progress id="progresoEspeciales" :percentage="100 / cuentas.ahorroDeseado * gastosAnt.especiales"></el-progress>
+        <el-progress id="progresoDiario" :percentage="100 / cuentas.ahorroDeseado * gastosAnt.diario"></el-progress>
 
         
      <el-button type="primary" @click="ir('gasto')" id="gasto">Añadir gasto</el-button>
@@ -91,6 +91,8 @@ export default {
           })
           console.log('Error getting document', err);
         });
+
+        this.porComida = 100 / this.cuentas.ahorroDeseado * this.gastosAnt.comida
     }
   },
     data(){
