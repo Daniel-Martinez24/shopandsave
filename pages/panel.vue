@@ -3,10 +3,10 @@
       
       <el-button id="salir" @click="salir()" type="danger" plain>salir</el-button>
 
-      <h2>$ {{presupuesto}}</h2>
+      <h2>$ {{cuentas.ahorroDeseado - gastosAnt.comida - gastosAnt.transporte - gastosAnt.especiales - gastosAnt.diario}}</h2>
 
       <h1 class="title">
-        14 de enero 2019
+        14 de enero 2019 {{cuentas.ahorroDeseado}}
       </h1>
       <img src="https://firebasestorage.googleapis.com/v0/b/shop-and-save.appspot.com/o/chanchos%2FChanchos-felicidades.png?alt=media&token=aa1626cc-c571-4086-ba79-f1f02108df48"></img>
         
@@ -72,17 +72,32 @@ export default {
           console.log('Error getting document', err);
         });
 
+
+      let cuenta = db.collection(correo).doc('cuentas');
+      getDoc = cuenta.get()
+        .then(doc => {
+          if (!doc.exists) {
+            console.log('No such document!');
+            this.$router.push({ path: '/configurador' });
+          } else {
+            console.log('Document data:', doc.data());
+            this.cuentas = doc.data();
+          }
+        })
+        .catch(err => {
+          this.$message({
+          message: err,
+          type: 'error'
+          })
+          console.log('Error getting document', err);
+        });
     }
   },
     data(){
         return {
             gastosAnt: [],
             hora: 0,
-            presupuesto: 100,
-            gastoComida: 10,
-            gastoTransporte: 10,
-            gastoEspeciales: 10,
-            gastoDiario: 10,
+            cuentas: [],
         }
     },
   methods: {
@@ -258,7 +273,7 @@ export default {
   font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-weight: 300;
-  font-size: 150%;
+  font-size: 250%;
   color: #35495e;
   letter-spacing: 1px;
   grid-column-start: 3;
