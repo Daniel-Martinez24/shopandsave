@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-      <p><strong>Ahorre dinero</strong> administrado sus gastos semanales</p>
+      <p><strong>Ahorre dinero</strong> administrado sus gastos semanales {{ authenticatedUser }} </p>
       <img src="https://firebasestorage.googleapis.com/v0/b/shop-and-save.appspot.com/o/chanchos%2FChanchos-alegre.png?alt=media&token=c815c0f6-872c-4019-8022-1d09e7bf3cd4"></img>
     <div id="txtEmail">
       <el-input
@@ -23,11 +23,26 @@
 </template>
 
 <script>
-import { auth } from '@/plugins/firebase';
+import { firestore as db, auth  } from '@/plugins/firebase';
 
 export default {
+  asyncData() {
+    return {
+      authenticatedUser: null
+    }
+  },
+  created() {
+    auth.onAuthStateChanged(user => (this.authenticatedUser = user.email))
+  },
+  watch: {
+    authenticatedUser: function () {
+      // this.$router.push({ path: '/' });
+      this.correo = this.authenticatedUser.correo;
+    }
+  },
   data() {
     return {
+      correo: '',
       ingresos: '',
       deseo: ''
     }
@@ -38,10 +53,25 @@ export default {
     const ingreso = parseFloat(this.ingresos);
     const deseo = parseFloat(this.deseo);
       if (ingreso > 0 && deseo > 0) {
+
+      const data = {
+        ingresoSem: ingreso,
+        ahorroDeseado: deseo
+      };
+      const correo = this.authenticatedUser;
+      db.collection(correo).doc('cuentas').set(data).then(
+        () => 
         this.$message({
-          message: 'Los datos se guardaron exitosamente',
+        message: 'Los datos se guardaron exitosamente',
         })
-        this.$router.push({ path: '/panel' })
+      )
+      .catch(err => 
+        this.$message({
+          message: err,
+          type: 'error'
+          })
+      );
+      this.$router.push({ path: '/panel' })
       }
       else {
        this.$message({
