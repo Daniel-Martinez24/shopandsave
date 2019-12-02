@@ -10,10 +10,10 @@
       </h1>
       <img src="https://firebasestorage.googleapis.com/v0/b/shop-and-save.appspot.com/o/chanchos%2FChanchos-felicidades.png?alt=media&token=aa1626cc-c571-4086-ba79-f1f02108df48"></img>
         
-        <p id ="gastoComida">$ {{gastoComida}} comida</p>
-        <p id="gastoTransporte">$ {{gastoTransporte}} transporte</p>
-        <p id="gastoEspeciales">$ {{gastoEspeciales}} especiales</p>
-        <p id="gastoDiario">$ {{gastoDiario}} diario</p>
+        <p id ="gastoComida">$ {{gastosAnt.comida}} comida</p>
+        <p id="gastoTransporte">$ {{gastosAnt.transporte}} transporte</p>
+        <p id="gastoEspeciales">$ {{gastosAnt.especiales}} especiales</p>
+        <p id="gastoDiario">$ {{gastosAnt.diario}} diario</p>
 
         <el-progress id="progresoComida" :percentage="50"></el-progress>
         <el-progress id="progresoTransporte" :percentage="50"></el-progress>
@@ -26,16 +26,19 @@
 </template>
 
 <script>
-import { auth } from '@/plugins/firebase';
+import { firestore as db, auth } from '@/plugins/firebase';
 
 export default {
   asyncData() {
     return {
+      gastos: [],
+      correo: '',
       authenticatedUser: 'null'
     }
   },
   created() {
     auth.onAuthStateChanged(user => (this.authenticatedUser = user))
+    auth.onAuthStateChanged(user => (this.correo = user.email))
   },
   watch: {
     authenticatedUser: function () {
@@ -44,10 +47,37 @@ export default {
       if (this.authenticatedUser == null){
         this.$router.push({ path: '/' });
       }
+
+      let nuevaHora = Math.floor(Date.now() / 1000);
+      nuevaHora = nuevaHora - (nuevaHora % 86400);
+      nuevaHora = nuevaHora.toString();
+      this.hora = nuevaHora;
+      const correo = this.correo
+      let cityRef = db.collection(correo).doc(nuevaHora);
+      let getDoc = cityRef.get()
+        .then(doc => {
+          if (!doc.exists) {
+            console.log('No such document!');
+            this.gastosAnt = { comida: 0, diario: 0, especiales: 0, transporte: 0 };
+          } else {
+            console.log('Document data:', doc.data());
+            this.gastosAnt = doc.data();
+          }
+        })
+        .catch(err => {
+          this.$message({
+          message: err,
+          type: 'error'
+          })
+          console.log('Error getting document', err);
+        });
+
     }
   },
     data(){
         return {
+            gastosAnt: [],
+            hora: 0,
             presupuesto: 100,
             gastoComida: 10,
             gastoTransporte: 10,
