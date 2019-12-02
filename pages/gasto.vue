@@ -1,38 +1,126 @@
 <template>
     <div class="container" :style="regillas">
-        <h1 class="title">{{tipo}}</h1>
+        <h1 class="title">{{tipo}} </h1>
         <img src="https://firebasestorage.googleapis.com/v0/b/shop-and-save.appspot.com/o/chanchos%2FChanchos-alegre.png?alt=media&token=c815c0f6-872c-4019-8022-1d09e7bf3cd4" alt="">
-        <el-button id="comida" type="primary" @click="tipo = 'Comida'" plain>Comida</el-button>
-        <el-button id="transporte" type="primary" @click="tipo = 'Transporte'" plain>Transporte</el-button>
-        <el-button id="especial" type="primary" @click="tipo = 'Especial'" plain>Especial</el-button>
-        <el-button id="diario" type="primary" @click="tipo = 'Diario'" plain>Diario</el-button>
+        <el-button id="comida" type="primary" @click="tipo = 'Comida'; obtener();" plain>Comida</el-button>
+        <el-button id="transporte" type="primary" @click="tipo = 'Transporte';  obtener();" plain>Transporte</el-button>
+        <el-button id="especial" type="primary" @click="tipo = 'Especial';  obtener();" plain>Especial</el-button>
+        <el-button id="diario" type="primary" @click="tipo = 'Diario'; obtener();" plain>Diario</el-button>
         <el-input class="input" placeholder="Ingresa la cantidad" v-model="gasto"></el-input>
         <el-button type="success" @click="guardar('panel')" class="continuar" :style="continuarStyle" icon="el-icon-check" circle></el-button>
     </div> 
 </template>
 
 <script>
+import { firestore as db, auth  } from '@/plugins/firebase';
+
 export default {
+  asyncData() {
+    return {
+      authenticatedUser: null
+    }
+  },
+  created() {
+    auth.onAuthStateChanged(user => (this.authenticatedUser = user.email));
+    let nuevaHora = Math.floor(Date.now() / 1000);
+  },
+  watch: {
+    authenticatedUser: function () {
+      this.$router.push({ path: '/' });
+    }
+  },
     data() {
         return {
+            hora: '',
             tipo:'Añadir gastos',
             gasto: '',
+            comida: 0,
+            especiales: 0,
+            diario: 0,
+            transporte: 0,
             continuarStyle: 'display:none;',
-            regillas: ''
+            regillas: '',
+            gastosAnt: [],
         }
     },
     methods: {
+        obtener() {
+          let nuevaHora = Math.floor(Date.now() / 1000);
+          nuevaHora = nuevaHora - (nuevaHora % 86400);
+          nuevaHora = nuevaHora.toString();
+          this.hora = nuevaHora;
+          let cityRef = db.collection(this.authenticatedUser).doc(nuevaHora);
+          let getDoc = cityRef.get()
+            .then(doc => {
+              if (!doc.exists) {
+                console.log('No such document!');
+                this.gastosAnt = { comida: 0, diario: 0, especiales: 0, transporte: 0 };
+              } else {
+                console.log('Document data:', doc.data());
+                this.gastosAnt = doc.data();
+              }
+            })
+            .catch(err => {
+              this.$message({
+              message: err,
+              type: 'error'
+              })
+              console.log('Error getting document', err);
+            });
+
+        },
+
         guardar(ruta) {
-            const numero = parseFloat(this.gasto);
-            if (numero > 0) {
-                console.log(ruta);
-                this.$router.push({ path: '/' + ruta });
-            } else {
-                this.$message({
-                  message: 'Ingresa datos correctos',
-                  type: 'error'
-                })
-            }
+          
+          const numero = parseFloat(this.gasto);
+
+          if (numero > 0) {
+                if(this.tipo == 'Comida'){
+            this.comida += numero;
+          }
+          if(this.tipo == 'Especial'){
+            this.especiales += numero;
+          }
+          if(this.tipo == 'Transporte'){
+            this.transporte += numero;
+          }
+          if(this.tipo == 'Diario'){
+            this.diario += numero;
+          }
+
+          const data = {
+            comida: this.gastosAnt.comida + this.comida,
+            transporte: this.gastosAnt.transporte + this.transporte,
+            especiales: this.gastosAnt.especiales + this.especiales,
+            diario: this.gastosAnt.diario + this.diario
+          };
+        
+
+          const correo = this.authenticatedUser;
+          const hora = this.hora
+         db.collection(correo).doc(hora).set(data).then(
+            () => 
+            this.$message({
+            message: 'Los datos se guardaron exitosamente',
+            })
+          )
+          .catch(err => 
+            this.$message({
+              message: err,
+              type: 'error'
+              })
+          );
+
+
+
+              console.log(ruta);
+              this.$router.push({ path: '/' + ruta });
+          } else {
+              this.$message({
+                message: 'Ingresa datos correctos',
+                type: 'error'
+              })
+          }
         },
         verificar() {
             if (this.tipo != 'Añadir gastos' && this.gasto != '') {
@@ -54,6 +142,7 @@ export default {
       }
     },
     mounted(){ 
+
         this.regillas='grid-template-columns: 10% 40% 40% 10%; grid-template-rows: 30% 30% 10% 10% 10% 10%;';
     }
 }
