@@ -29,6 +29,23 @@
 import { auth } from '@/plugins/firebase';
 
 export default {
+  asyncData() {
+    return {
+      authenticatedUser: 'null'
+    }
+  },
+  created() {
+    auth.onAuthStateChanged(user => (this.authenticatedUser = user))
+  },
+  watch: {
+    authenticatedUser: function () {
+      console.log('this.authenticatedUser')
+      console.log(this.authenticatedUser)
+      if (this.authenticatedUser == null){
+        this.$router.push({ path: '/' });
+      }
+    }
+  },
     data(){
         return {
             presupuesto: 100,
@@ -60,7 +77,32 @@ export default {
               message: 'Se cerro la sesión con exito.'
             });
 
-    }
+    },
+    async confirmar () {
+      console.log('fun confirmar');
+      await auth.onAuthStateChanged(function(user) {
+        if (user) {
+          console.log('confirmado');
+          return 'logeado';
+        } else {
+          return 'logeadon´t';
+         this.$router.push({ path: '/' });
+        }
+      });
+    },
+  },
+  mounted() {
+    const promise = fetch(auth.currentUser);
+    promise.then(result => {
+      console.log('el user es: '+result.email);
+       if (result) {
+          console.log('yes, i am');
+          console.log('el user es: ' + result.email);
+        } else {
+          console.log('no');
+        }
+    });
+
   }
 }
 </script>

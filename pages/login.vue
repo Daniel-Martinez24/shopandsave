@@ -1,6 +1,7 @@
 <template>
   <div class="container">
       <p>Entre mas ahorres, mas puntos juntas para comprarle diferentes estilos a tu cerdito.</p>
+      
       <img src="https://firebasestorage.googleapis.com/v0/b/shop-and-save.appspot.com/o/chanchos%2FChanchos-asombrado.png?alt=media&token=a449ca67-96dc-438c-adfd-37610effe402"></img>
     <div id="txtEmail">
       <el-input
@@ -29,24 +30,24 @@
 import { auth } from '@/plugins/firebase';
 
 export default {
+  asyncData() {
+    return {
+      authenticatedUser: null
+    }
+  },
+  created() {
+    auth.onAuthStateChanged(user => (this.authenticatedUser = user))
+  },
   data() {
     return {
       correo: 'correo@yopmail.com',
       contrasenia: 'contraseña',
     };
   },
-  mounted() {
-    console.log('auth.onAuthStateChanged');
-    // const user =  ;
-    const promise = fetch(auth.currentUser);
-    promise.then(result => {
-      console.log('el user es: '+result);
-       if (result) {
-          console.log('yes, i am');
-        } else {
-          console.log('no');
-        }
-    });
+  watch: {
+    authenticatedUser: function () {
+      this.$router.push({ path: '/panel' });
+    }
   },
   methods: {
     async confirmar () {

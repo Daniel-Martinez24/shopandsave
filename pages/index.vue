@@ -14,8 +14,22 @@
 
 <script>
 import Logo from '~/components/Logo.vue'
+import { auth } from '@/plugins/firebase';
 
 export default {
+  asyncData() {
+    return {
+      authenticatedUser: null
+    }
+  },
+  created() {
+    auth.onAuthStateChanged(user => (this.authenticatedUser = user))
+  },
+  watch: {
+    authenticatedUser: function () {
+      this.$router.push({ path: '/panel' });
+    }
+  },
   methods: {
     ir(ruta) {
       console.log(ruta);

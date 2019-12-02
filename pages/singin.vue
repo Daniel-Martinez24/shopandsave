@@ -28,14 +28,40 @@
 <script>
 import { auth } from '@/plugins/firebase';
 
-export default {
+export default {asyncData() {
+    return {
+      authenticatedUser: null
+    }
+  },
+  created() {
+    auth.onAuthStateChanged(user => (this.authenticatedUser = user))
+  },
   data() {
     return {
       correo: '',
       contrasenia: ''
     }
   },
+  watch: {
+    authenticatedUser: function () {
+      this.$router.push({ path: '/panel' });
+    }
+  },
   methods: {
+    iniciar(){
+      auth
+        .signInWithEmailAndPassword(this.correo, this.contrasenia)
+        .then(res => {
+          // Antetificar
+          this.$message({
+            message: 'Sesión iniciada.',
+          })
+        })
+        .catch(err => {
+          console.log('error');
+          console.log(err.code);
+        });
+    },
     siguiente(){
       
       // cambiar esto, a tener aprovación de firebase
@@ -47,6 +73,7 @@ export default {
         })
         )
         .then(
+          this.iniciar(),
           this.$router.push({ path: '/configurador' })
         )
         .catch(function(error) {
