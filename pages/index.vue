@@ -87,4 +87,21 @@ export default {
   grid-column-start: 2;
   grid-row-start: 0;
 }
+
+@media only screen and (min-width: 600px) {
+
+  .title {
+    font-weight: 100;
+    font-size: 48px;
+    margin-top: 10%;
+  }
+  .container {
+    grid-template-columns: 30% 40% 30%;
+    grid-template-rows: 23% 50% 10% 0% 10% 7%;
+  }
+  .container img {
+    height: 70%;
+    width: auto;
+  }
+}
 </style>
