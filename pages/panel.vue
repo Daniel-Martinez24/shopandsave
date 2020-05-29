@@ -1,29 +1,80 @@
 <template>
   <div class="container">
+      <div class="navbar">
+        <el-button id="menu" @click="salir()" type="text" plain> <img src="~/static/menu.svg" alt=""></el-button>
+       
+      </div>
+      <div class="tarjeta">
+          <h1 class="title">
+            {{fecha}}
+          </h1>
+            
+            <div style="display: inline-flex;">
+              <p id ="gastoComida"> Comida</p>
+              <p id ="gastoComida" style="text-aling:left;">$ {{gastosAnt.comida}} </p>
+            </div>
+            <el-progress id="progresoComida" :percentage="100 / cuentas.ahorroDeseado * gastosAnt.comida"></el-progress>
+
+            <p id="gastoTransporte">$ {{gastosAnt.transporte}} transporte</p>
+            <el-progress id="progresoTransporte" :percentage="100 / cuentas.ahorroDeseado * gastosAnt.transporte"></el-progress>
+
+
+            <p id="gastoEspeciales">$ {{gastosAnt.especiales}} especiales</p>
+            <el-progress id="progresoEspeciales" :percentage="100 / cuentas.ahorroDeseado * gastosAnt.especiales"></el-progress>
+
+
+            <p id="gastoDiario">$ {{gastosAnt.diario}} diario</p>
+            <el-progress id="progresoDiario" :percentage="100 / cuentas.ahorroDeseado * gastosAnt.diario"></el-progress>
+
+            <br>
+            <div style="display:none;">
+              {{ ahorro_total = cuentas.ahorroDeseado - gastosAnt.comida - gastosAnt.transporte - gastosAnt.especiales - gastosAnt.diario}}
+            </div>
+            <p id="ahorroTotal">$ {{ahorro_total}} Ahorro !</p>
+            <el-progress id="ahorroTotal" :percentage="100 / cuentas.ahorroDeseado * ahorro_total"></el-progress>
+
       
-      <el-button id="salir" @click="salir()" type="danger" plain>salir</el-button>
-
-      <h2>$ {{cuentas.ahorroDeseado - gastosAnt.comida - gastosAnt.transporte - gastosAnt.especiales - gastosAnt.diario}}</h2>
-
-      <h1 class="title">
-        {{fecha}}
-      </h1>
+    </div>
+    <div class="add_zone">
       <img src="https://firebasestorage.googleapis.com/v0/b/shop-and-save.appspot.com/o/chanchos%2FChanchos-felicidades.png?alt=media&token=aa1626cc-c571-4086-ba79-f1f02108df48"></img>
-        
-        <p id ="gastoComida">$ {{gastosAnt.comida}} comida</p>
-        <p id="gastoTransporte">$ {{gastosAnt.transporte}} transporte</p>
-        <p id="gastoEspeciales">$ {{gastosAnt.especiales}} especiales</p>
-        <p id="gastoDiario">$ {{gastosAnt.diario}} diario</p>
-
-        <el-progress id="progresoComida" :percentage="100 / cuentas.ahorroDeseado * gastosAnt.comida"></el-progress>
-        <el-progress id="progresoTransporte" :percentage="100 / cuentas.ahorroDeseado * gastosAnt.transporte"></el-progress>
-        <el-progress id="progresoEspeciales" :percentage="100 / cuentas.ahorroDeseado * gastosAnt.especiales"></el-progress>
-        <el-progress id="progresoDiario" :percentage="100 / cuentas.ahorroDeseado * gastosAnt.diario"></el-progress>
-
-        
-     <el-button type="primary" @click="ir('gasto')" id="gasto">Añadir gasto</el-button>
+       <el-button type="primary" @click="ir('gasto')" id="gasto" icon="el-icon-plus" circle></el-button>        
+     </div>
   </div>
 </template>
+
+
+<style scoped>
+.container{
+  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;  
+  
+}
+.navbar{
+  width: 100%;
+  height: 10vh;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+#menu{
+  height: 100%;
+  margin-left: 5%;
+}
+
+.tarjeta{
+  margin: 5%;
+}
+
+.title{
+  font-size: 20px;
+  font-weight: 100%;
+  margin: 10%;
+  text-align: center;
+}
+
+.add_zone img{
+  width: 20% ;
+}
+
+</style>
 
 <script>
 import { firestore as db, auth } from '@/plugins/firebase';
@@ -42,9 +93,10 @@ export default {
   },
   watch: {
     hora: function () {
+      const meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
       let date = new Date(this.hora * 1000);
-      const mouth = date.getMonth() + 1;
-      date = date.getDate() + '/' + mouth + '/' + date.getFullYear();
+      const mouth = meses[date.getMonth()];
+      date = date.getDate() + ' de ' + mouth ;
       this.fecha = date;
       
     },
@@ -161,133 +213,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.container {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 10% 20% 60% 10%;
-  grid-template-rows: 15% 12% 10% 10% 10% 10% 8% 5% 20%;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-
-.container img {
-  grid-column-start: 3;
-  grid-column-end: 4;
-  grid-row-end: -3;
-  width: 40%;
-  display:block;
-  margin:auto;
-}
-
-.continuar {
-  grid-column-start: 2;
-  grid-column-end: 4;
-  grid-row-start: 6;
-  display:block;
-  margin:auto;
-}
-
-#gasto{
-  grid-column-start: 2;
-  grid-column-end: 4;
-  grid-row-start: 9;
-  width: 80%;
-  display:block;
-  margin:auto;
-}
-
-#comida {
-  grid-column-start: 2;
-  grid-row-start: 3;
-  
-  width: 90%;
-  display:block;
-  margin:auto;
-}
-#progresoComida {
-  grid-column-start: 3;
-  grid-row-start: 3;
-  
-  width: 80%;
-  display:block;
-  margin:auto;
-}
-#progresoTransporte {
-  grid-column-start: 3;
-  grid-row-start: 4;
-  
-  width: 80%;
-  display:block;
-  margin:auto;
-}
-#progresoEspeciales {
-  grid-column-start: 3;
-  grid-row-start: 5;
-  
-  width: 80%;
-  display:block;
-  margin:auto;
-}
-#progresoDiario {
-  grid-column-start: 3;
-  grid-row-start: 6;
-  
-  width: 80%;
-  display:block;
-  margin:auto;
-}
-#gastoComida {
-  grid-column-start: 2;
-  grid-row-start: 3;
-  
-}
-#gastoEspeciales {
-  grid-column-start: 2;
-  grid-row-start: 5;
-}
-#gastoDiario {
-  grid-column-start: 2;
-  grid-row-start: 6;
-  
-}
-#gastoTransporte {
-  grid-column-start: 2;
-  grid-row-start: 4;
-}
-#salir{
-  grid-column-start: 1;
-  grid-column-end: 3;
-  grid-row-start: 1;
-  width: 80%;
-  display:block;
-  margin:auto;
-}
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-weight: 300;
-  font-size: 200%;
-  color: #35495e;
-  letter-spacing: 1px;
-  grid-column-start: 2;
-  grid-column-end: 4;
-  grid-row-start: 2;;
-}
-.container h2 {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-weight: 300;
-  font-size: 250%;
-  color: #35495e;
-  letter-spacing: 1px;
-  grid-column-start: 3;
-  grid-column-end: -1;
-  grid-row-start: 1;;
-}
-</style>
