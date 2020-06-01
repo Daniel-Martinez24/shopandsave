@@ -9,35 +9,45 @@
             {{fecha}}
           </h1>
             
-            <div style="display: inline-flex;">
-              <p id ="gastoComida"> Comida</p>
-              <p id ="gastoComida" style="text-aling:left;">$ {{gastosAnt.comida}} </p>
+            <div class="Gastos">
+              <p id ="nombreGasto"> Comida</p>
+              <p id ="cantidadGasto" style="text-aling:left;">$ {{gastosAnt.comida}} </p>
             </div>
-            <el-progress id="progresoComida" :percentage="100 / cuentas.ahorroDeseado * gastosAnt.comida"></el-progress>
+            <el-progress id="progresoComida" class="Progresobarra" :percentage="100 / cuentas.ahorroDeseado * gastosAnt.comida"></el-progress>
 
-            <p id="gastoTransporte">$ {{gastosAnt.transporte}} transporte</p>
-            <el-progress id="progresoTransporte" :percentage="100 / cuentas.ahorroDeseado * gastosAnt.transporte"></el-progress>
+            <div class="Gastos">
+              <p id ="nombreGasto"> Transporte</p>
+              <p id ="cantidadGasto" style="text-aling:left;">$ {{gastosAnt.transporte}} </p>
+            </div>
+            <el-progress id="progresoTransporte" class="Progresobarra" :percentage="100 / cuentas.ahorroDeseado * gastosAnt.transporte"></el-progress>
 
+            <div class="Gastos">
+              <p id ="nombreGasto"> Gastos especiales</p>
+              <p id ="cantidadGasto" style="text-aling:left;">$ {{gastosAnt.especiales}} </p>
+            </div>
+            <el-progress id="progresoEspeciales" class="Progresobarra" :percentage="100 / cuentas.ahorroDeseado * gastosAnt.especiales"></el-progress>
 
-            <p id="gastoEspeciales">$ {{gastosAnt.especiales}} especiales</p>
-            <el-progress id="progresoEspeciales" :percentage="100 / cuentas.ahorroDeseado * gastosAnt.especiales"></el-progress>
-
-
-            <p id="gastoDiario">$ {{gastosAnt.diario}} diario</p>
-            <el-progress id="progresoDiario" :percentage="100 / cuentas.ahorroDeseado * gastosAnt.diario"></el-progress>
+            <div class="Gastos">
+              <p id ="nombreGasto"> Gastos diarios</p>
+              <p id ="cantidadGasto" style="text-aling:left;">$ {{gastosAnt.diario}} </p>
+            </div>
+            <el-progress id="progresoDiario" class="Progresobarra" :percentage="100 / cuentas.ahorroDeseado * gastosAnt.diario"></el-progress>
 
             <br>
             <div style="display:none;">
               {{ ahorro_total = cuentas.ahorroDeseado - gastosAnt.comida - gastosAnt.transporte - gastosAnt.especiales - gastosAnt.diario}}
             </div>
-            <p id="ahorroTotal">$ {{ahorro_total}} Ahorro !</p>
-            <el-progress id="ahorroTotal" :percentage="100 / cuentas.ahorroDeseado * ahorro_total"></el-progress>
+            <div class="Gastos">
+              <p id ="nombreGasto"> Ahorro !</p>
+              <p id ="cantidadGasto" style="text-aling:left;">$ {{ahorro_total}} </p>
+            </div>
+            <el-progress id="ahorroTotal" class="Progresobarra" :percentage="100 / cuentas.ahorroDeseado * ahorro_total"></el-progress>
 
       
     </div>
     <div class="add_zone">
       <img src="https://firebasestorage.googleapis.com/v0/b/shop-and-save.appspot.com/o/chanchos%2FChanchos-felicidades.png?alt=media&token=aa1626cc-c571-4086-ba79-f1f02108df48"></img>
-       <el-button type="primary" @click="ir('gasto')" id="gasto" icon="el-icon-plus" circle></el-button>        
+       <el-button type="primary" @click="ir('gasto')" class="addgasto" icon="el-icon-plus" circle></el-button>        
      </div>
   </div>
 </template>
@@ -59,8 +69,23 @@
   margin-left: 5%;
 }
 
-.tarjeta{
-  margin: 5%;
+
+.Gastos{
+  display: grid;
+  width: 100%;
+  grid-auto-columns: 47% 47%;
+  margin: 3%;
+}
+
+.Progresobarra{
+  margin-left: 3%;
+
+}
+
+#cantidadGasto{
+  text-align: right;
+  grid-column-start: 2;
+  margin-right: 10%;
 }
 
 .title{
@@ -69,9 +94,14 @@
   margin: 10%;
   text-align: center;
 }
-
 .add_zone img{
   width: 20% ;
+  display:block;
+  margin:auto;
+}
+.addgasto{
+  margin-left: 80%;
+  margin-bottom: 5%;
 }
 
 </style>
