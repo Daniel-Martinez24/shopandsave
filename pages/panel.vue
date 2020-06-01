@@ -43,6 +43,7 @@
             </div>
             <el-progress id="ahorroTotal" class="Progresobarra" :percentage="100 / cuentas.ahorroDeseado * ahorro_total"></el-progress>
 
+            <br>
       
     </div>
     <div class="add_zone">
@@ -102,6 +103,55 @@
 .addgasto{
   margin-left: 80%;
   margin-bottom: 5%;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media only screen and (min-width: 600px) {
+  .container {
+
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 10% 80% 10%;
+  }
+  .tarjeta{
+    grid-column-start: 1;
+    margin: 2vh;
+    margin-bottom: 10vh;
+    padding: 10vh;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  .navbar{
+    grid-column-end: 3;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25);
+  }
+
+  #menu{
+    margin-left: 80%;
+  }
+
+  .add_zone img{
+    width: 30% ;
+    display:block;
+    margin:auto;
+  }
+  .addgasto{
+    margin-top: 10%;
+    margin-left: 0%;
+    margin-bottom: 0%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  #nombreGasto{
+    text-align: left;
+    margin-left: 2vh;
+  }
 }
 
 </style>
