@@ -11,6 +11,145 @@
     </div> 
 </template>
 
+
+
+<style scoped>
+.container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 10% 40% 40% 10%;
+  grid-template-rows: 30% 30% 10% 10% 10% 10%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+
+.container img {
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 2;
+  width: 40%;
+  display:block;
+  margin:auto;
+}
+
+.continuar {
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 6;
+  display:block;
+  margin:auto;
+}
+
+#comida {
+  grid-column-start: 2;
+  grid-row-start: 3;
+  
+  width: 80%;
+  display:block;
+  margin:auto;
+}
+#transporte {
+  grid-column-start: 3;
+  grid-row-start: 3;
+  
+  width: 80%;
+  display:block;
+  margin:auto;
+}
+#especial {
+  grid-column-start: 2;
+  grid-row-start: 4;
+  
+  width: 80%;
+  display:block;
+  margin:auto;
+}
+#diario {
+  grid-column-start: 3;
+  grid-row-start: 4;
+  
+  width: 80%;
+  display:block;
+  margin:auto;
+}
+
+.input {
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 5;
+  width: 80%;
+  display:block;
+  margin:auto;
+}
+.title {
+  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 300;
+  font-size: 200%;
+  color: #35495e;
+  letter-spacing: 1px;
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 0;;
+}
+
+@media only screen and (min-width: 600px) {
+  .container {
+    grid-template-columns: 50% 50%;
+  }
+
+  .title {
+    font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+      'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 300;
+    font-size: 200%;
+    letter-spacing: 1px;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 0;;
+  }
+
+#comida {
+  grid-column-start: 1;
+  grid-column-end: 2;
+
+    grid-row-start: 2;
+        margin-top: 10%;
+}
+#transporte {
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+#especial {
+  grid-column-start: 1;
+  grid-column-end: 2;
+    grid-row-start: 2;
+        margin-top: 20%;
+}
+#diario {
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+
+.input {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 5;
+}
+.continuar {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 6;
+}
+}
+
+
+</style>
+
 <script>
 import { firestore as db, auth  } from '@/plugins/firebase';
 
@@ -125,11 +264,11 @@ export default {
         verificar() {
             if (this.tipo != 'Añadir gastos' && this.gasto != '') {
                 this.continuarStyle ='display:block;';
-                this.regillas='grid-template-columns: 10% 40% 40% 10%; grid-template-rows: 30% 20% 10% 10% 10% 20%;';
+                this.regillas='grid-template-rows: 30% 20% 10% 10% 10% 20%;';
             }
             else {
                 this.continuarStyle ='display:none;'
-                this.regillas='grid-template-columns: 10% 40% 40% 10%; grid-template-rows: 30% 30% 10% 10% 10% 10%;';
+                this.regillas='grid-template-rows: 30% 30% 10% 10% 10% 10%;';
             }
         }
     },
@@ -143,92 +282,7 @@ export default {
     },
     mounted(){ 
 
-        this.regillas='grid-template-columns: 10% 40% 40% 10%; grid-template-rows: 30% 30% 10% 10% 10% 10%;';
+        this.regillas='grid-template-rows: 30% 30% 10% 10% 10% 10%;';
     }
 }
 </script>
-
-<style scoped>
-.container {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: 10% 40% 40% 10%;
-  grid-template-rows: 30% 30% 10% 10% 10% 10%;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-
-.container img {
-  grid-column-start: 2;
-  grid-column-end: 4;
-  grid-row-start: 2;
-  width: 40%;
-  display:block;
-  margin:auto;
-}
-
-.continuar {
-  grid-column-start: 2;
-  grid-column-end: 4;
-  grid-row-start: 6;
-  display:block;
-  margin:auto;
-}
-
-#comida {
-  grid-column-start: 2;
-  grid-row-start: 3;
-  
-  width: 80%;
-  display:block;
-  margin:auto;
-}
-#transporte {
-  grid-column-start: 3;
-  grid-row-start: 3;
-  
-  width: 80%;
-  display:block;
-  margin:auto;
-}
-#especial {
-  grid-column-start: 2;
-  grid-row-start: 4;
-  
-  width: 80%;
-  display:block;
-  margin:auto;
-}
-#diario {
-  grid-column-start: 3;
-  grid-row-start: 4;
-  
-  width: 80%;
-  display:block;
-  margin:auto;
-}
-
-.input {
-  grid-column-start: 2;
-  grid-column-end: 4;
-  grid-row-start: 5;
-  width: 80%;
-  display:block;
-  margin:auto;
-}
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-weight: 300;
-  font-size: 200%;
-  color: #35495e;
-  letter-spacing: 1px;
-  grid-column-start: 2;
-  grid-column-end: 4;
-  grid-row-start: 0;;
-}
-</style>
